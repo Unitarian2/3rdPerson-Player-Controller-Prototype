@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 081930da5e255e348940373200bbeaca
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: 416870459326255563
@@ -20,6 +20,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -28,7 +29,23 @@ ModelImporter:
       that might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'Scapula_L' has translation animation that
       will be discarded.\n"
-    animationRetargetingWarnings: 
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'tpose':\n\tLeftLowerLeg
+      average position error 6.2 mm and maximum position error 6.2 mm at time 0:
+      0 (0.0%) Frame 0\n\tRightLowerLeg average position error 6.2 mm and maximum
+      position error 6.2 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm average position
+      error 1.6 mm and maximum position error 1.6 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
+      average position error 1.6 mm and maximum position error 1.6 mm at time 0:
+      0 (0.0%) Frame 0\n\nRetargeting quality report for clip 'human_male_run_01':\n\tLeftUpperArm
+      average position error 10.2 mm and maximum position error 20.2 mm at time 0:16
+      (35.0%) Frame 16\n\tLeftLowerArm average position error 10.2 mm and maximum
+      position error 20.3 mm at time 0:16 (35.0%) Frame 16\n\tLeftHand average position
+      error 10.2 mm and maximum position error 20.2 mm at time 0:16 (35.0%) Frame
+      16\n\tRightUpperArm average position error 15.4 mm and maximum position error
+      15.6 mm at time 0:36 (85.0%) Frame 36\n\tRightLowerArm average position error
+      15.4 mm and maximum position error 15.6 mm at time 0:36 (85.0%) Frame 36\n\tRightHand
+      average position error 15.4 mm and maximum position error 15.6 mm at time 0:36
+      (85.0%) Frame 36\n\tHead average position error 3.0 mm and maximum position
+      error 3.0 mm at time 0:29 (67.5%) Frame 29\n"
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
@@ -106,27 +123,35 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -1033,6 +1058,9 @@ ModelImporter:
   animationType: 3
   humanoidOversampling: 1
   avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  importBlendShapeDeformPercent: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
