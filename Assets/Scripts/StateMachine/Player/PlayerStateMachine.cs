@@ -22,6 +22,7 @@ public class PlayerStateMachine : MonoBehaviour
     Vector3 currentMovement;
     Vector3 currentRunMovement;
     Vector3 appliedMovement;
+    Vector3 cameraRelativeMovement;
     bool isMovementPressed;
     bool isRunPressed;
     float rotationSpeed = 15f;
@@ -165,9 +166,9 @@ public class PlayerStateMachine : MonoBehaviour
     {
         Vector3 positionToLookAt;
         //Player hareket ettiði yöne doðru bakmalý
-        positionToLookAt.x = currentMovementInput.x;
+        positionToLookAt.x = cameraRelativeMovement.x;
         positionToLookAt.y = 0;
-        positionToLookAt.z = currentMovementInput.y;
+        positionToLookAt.z = cameraRelativeMovement.z;
         
 
         Quaternion currentRotation = transform.rotation;
@@ -185,7 +186,38 @@ public class PlayerStateMachine : MonoBehaviour
     {
         HandleRotation();
         currentState.UpdateStates();
-        characterController.Move(appliedMovement * Time.deltaTime);
+
+        cameraRelativeMovement = ConvertToCameraSpace(appliedMovement);
+        
+        characterController.Move(cameraRelativeMovement * Time.deltaTime);
+    }
+
+    //input system'dan gelen world space temelli hareket direction'ýný kamera space temelli hale getirir. Bunu karakteri kameranýn baktýðý yöne döndürmek için kullanýyoruz.
+    Vector3 ConvertToCameraSpace(Vector3 vectorToRotate)
+    {
+        //Y deðerini saklýyoruz. Ýþlemler yapýlýrken Y axis'i göz ardý edilecek ama movement için Y deðeri yine de lazým. En son vektöre eklicez bunu.
+        float currentYValue = vectorToRotate.y;
+
+        //Camera'nýn X ve Z vektörlerini aldýk.
+        Vector3 cameraForward = Camera.main.transform.forward;
+        Vector3 cameraRight = Camera.main.transform.right;
+
+        //Y deðerini sýfýrlýyoruz böylece kamera X ve Z vektörlerine paralel bir hale geliyor. Yukarý aþaðý kamera açýsýný ignore etmiþ olduk.
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        //Y deðeri sýfýrlayýnca vektör kýsalmýþ oldu. Uzunluk 1 olmalý vektörlerin, o nedenle normalize ediyoruz.
+        cameraForward = cameraForward.normalized;
+        cameraRight = cameraRight.normalized;
+
+        //vectorToRotate X ve Z deðerlerini camera space temelli olarak döndürüyoruz.
+        Vector3 cameraForwardZProduct = vectorToRotate.z * cameraForward;
+        Vector3 cameraRightXProduct = vectorToRotate.x * cameraRight;
+
+        //iki vektörün toplamý, kamera temelli vektörümüz oluyor.
+        Vector3 vectorRotatedToCameraSpace = cameraForwardZProduct + cameraRightXProduct;
+        vectorRotatedToCameraSpace.y = currentYValue;
+        return vectorRotatedToCameraSpace;
     }
 
     private void OnEnable()
