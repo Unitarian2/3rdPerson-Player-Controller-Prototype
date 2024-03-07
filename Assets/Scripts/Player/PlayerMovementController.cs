@@ -175,7 +175,7 @@ public class PlayerMovementController : MonoBehaviour
         bool isFalling = currentMovement.y <= 0f || !isJumpPressed;
 
         //Düþüyorsak, public fallspeed deðeri kullanýyoruz. Yoksa 1.0f default deðer kullanýyoruz. Düþme hýzýný artýrmak için kullanýlýr.
-        float fallMultiplier = isFalling ? fallSpeed : 1.0f;
+        float fallMultiplier = fallSpeed;
 
         //CharacterController yere deðiyorsa, küçük bir gravity veriyoruz ki floating durumunda kalmasýn.
         if (characterController.isGrounded)
@@ -192,16 +192,24 @@ public class PlayerMovementController : MonoBehaviour
             } 
 
             currentMovement.y = appliedMovement.y = groundedGravity;
-        }      
-        //Diðer durumlarda Gravity uyguluyoruz.
-        else
+        } 
+        //Player düþüþte. Else ile kod tekrarý olsa da ilerde buraya düþüþ anýna özel kodlar eklenebilir o nedenle bu þekilde býraktýk.
+        else if (isFalling)
         {
-            //Burada Velocity Verlet entegrasyonu kullandýk. Yarým adýmlýk hýz güncellemesi yaptýk böylece frame rate farkýndan doðacak sapmalarý azaltmak amaçlanýyor.
+            //Burada Velocity Verlet entegrasyonu kullandýk. Yarým adýmlýk hýz güncellemesi yaptýk böylece frame rate farkýndan doðacak sapmalardan kurtulmak amaçlanýyor.
             float previousYVelocity = currentMovement.y;
             currentMovement.y = currentMovement.y + (jumpGravities[jumpCount] * fallMultiplier * Time.deltaTime);
 
             //NextYVelocity Clamp'liyoruz, yüksek mesafeden aþaðý düþüyorsak fallMultiplier'ýmýz bizi aþýrý hýzlandýrmasýn diye. -20f düþerken ulaþacaðýmýz max düþme hýzý
             appliedMovement.y = Mathf.Max((previousYVelocity + currentMovement.y) * 0.5f, -20.0f);
+        }
+        //Diðer durumlarda Gravity uyguluyoruz.
+        else
+        {
+            //Burada Velocity Verlet entegrasyonu kullandýk. Yarým adýmlýk hýz güncellemesi yaptýk böylece frame rate farkýndan doðacak sapmalardan kurtulmak amaçlanýyor.
+            float previousYVelocity = currentMovement.y;
+            currentMovement.y = currentMovement.y + (jumpGravities[jumpCount] * Time.deltaTime);
+            appliedMovement.y = (previousYVelocity + currentMovement.y) * 0.5f;
         }
     }
 
